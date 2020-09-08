@@ -1,0 +1,25 @@
+1.Crée un serveur et un client
+
+	Serveur                                                  Client
+	=============================================================================================================
+	Envoyer la position de chaque joueurs					|Récupérer les scores
+	Calculer les tirs										|Récupérer les position
+	Récompenser les joueurs									|Récupérer les tirs
+	Donner la map											|Récupérer le classements
+	Informer la joueurs sur ce qui ce passe (mort / nouveau |Récupérer la map
+	Joueur)													|Récupérer les règles
+	Dénfinir et envoyer les règles.							|Récupérer les infos des joueurs
+	Récupérer tout les déplaçement, les vérifier			|Envoyer les déplaçement et les tirs
+	Récupérer tout les tirs, les vérifier					|Récupérer les message/événement potentiaux
+	Envoyer les tirs										|Afficher toute les info reçus en temps réel
+	Donner le classements									|Envoyer des message
+	Bannir un joueur, Distribuer les points					|Acheté un tank. 
+	Envoyer les Scores										|Choisir un tank parmi les tanks acheter
+	Envoyer les infos des joueurs							|Récupérer les skins
+	Envoyer les message/événement potentiaux				|
+	Sauvegarder toute les infos reçu						|
+	Envoyer les stats des tank								|
+	Géré l'achat des tanks									|
+	Sauvegarder les stats des joueurs						|
+	Envoyer les skins des tanks								|
+
