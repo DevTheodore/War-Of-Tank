@@ -1,0 +1,7 @@
+pv  rengn/p  degat/t  tir/s  cout  name         image_dir    tank_cannon_emplacement
+=== ======== ======== ====== ===== ============ ===========  ========================
+3   60       1        1/20   0     Basic        Basic_tank   
+5   60       1        1/20   300   Advanced     Advanced_tank
+6   45       1        1/20   700   Warrior      Warrior      
+8   45       1        1/15   1500  Professional Professional 
+10  30       2        1/15   3000  Mega         Mega         
