@@ -1,0 +1,9 @@
+classement : 
+
+name          point       tank
+============= =========== ==========
+x1            100000      Mega
+x2            10000       Professional
+x3            1000        Warrior
+x4            100         Advanced
+x5            10          Basic
