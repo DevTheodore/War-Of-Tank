@@ -1,0 +1,8 @@
+client : envoi username-password
+		{"name":"$(USERNAME)","password":"$(PASSWORD)", "newuser":$(NEWUSER)}
+serveur : envoi autorisation de connection:
+	si non:
+		{"connection":False,"reason":"$(REASON)"}
+	si oui:
+		{"connection":True, "listplayercoinfo":{$(listplayercoinfo)}, "myinfo":{"xp":$(XP), "coin":$(COIN), "tanklist":{$(TANKLIST)}}, "availablemap":{$(LISTMAPDISO)}}
+		
