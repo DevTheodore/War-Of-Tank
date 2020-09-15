@@ -1,8 +1,69 @@
 client : envoi username-password
-		{"name":"$(USERNAME)","password":"$(PASSWORD)", "newuser":$(NEWUSER)}
-serveur : envoi autorisation de connection:
-	si non:
-		{"connection":False,"reason":"$(REASON)"}
-	si oui:
-		{"connection":True, "listplayercoinfo":{$(listplayercoinfo)}, "myinfo":{"xp":$(XP), "coin":$(COIN), "tanklist":{$(TANKLIST)}}, "availablemap":{$(LISTMAPDISO)}}
+		client:{"name":"$(USERNAME)","password":"$(PASSWORD)", "newuser":$(NEWUSER)}
 		
+serveur : envoi autorisation de connection:
+
+	si non:
+		server:{"connection":False,"reason":"$(REASON)"}
+		
+		
+	si oui:
+		server:{"connection":True, "listplayercoinfo":{$(listplayercoinfo)}, "myinfo":{"xp":$(XP), "coin":$(COIN), "tanklist":{$(TANKLIST)}}, "availablemap":{$(LISTMAPDISO)}}
+		
+		quand map choisi:
+			client:{"requeste":"connect to map", "map":$(MAPID), "rid":$(RID)}
+			
+			si map accorder:
+				server:{"reponse":"yes", "crid":$(CRID), "mapinfo":{"mapsize":$(MAPSIZE), "mapimage":$(MAPIMG), "maprealimg":$(MAPREALIMG), "Otherplayerinfo":$(OTHERPLAYERINFO)}}
+				serveur v all client:{"player":$(NAME), {$(PLAYERINFO)}}
+				
+				tantque j co:
+					si j continue à jouer:
+						client:{"deplacementavant":$(DEPLACEMENTAVANT), "rotationtank":$(ROTATIONTANK),"rotationcannon":$(ROTATIONCANNON), "fire":$(NUMBERFIRE)}
+						
+						si le serveur accepte les déplacement:
+							serveur v all client: {"player":$(NAME),"deplacementavant":$(DEPLACEMENTAVANT), "rotationtank":$(ROTATIONTANK),"rotationcannon":$(ROTATIONCANNON), "fire":$(NUMBERFIRE)}
+						
+						sinon:
+							serveur v all client: {"player":$(NAME), "kick":1}
+							fin de la connection
+						
+						si le joueur recois un tir:
+							serveur v all client: {"player":$(NAME), "life":$(PLAYERLIFE)}
+							
+							si il en meurt:
+								serveur v all client: {"player":$(NAME),"dead":1, "perte xp":$(PERTEXP)}
+						
+						si il gagne ou pert de l'xp ou de l'argent:
+							serveur v all client: {"player":$(NAME),"xp":$(XP), "coin":$(COIN)}
+							
+						si il envoi un message:
+							client:{"message":$(MESSAGE), "rid":$(RID)}
+							
+							si le serveur le transmet:
+								serveur v all client: {"player":$(NAME),"message":$(MESSAGE)}
+								
+							sinon:
+								si avertissement:
+									server:{"message blocked":True,"reason":$(REASON),"advertisement":True, "crid":$(CRID)}
+									
+								sinon:
+								
+									si kick:
+										server:{"message blocked":True,"reason":$(REASON),"kick":True, "crid":$(CRID)}
+										serveur v all client: {"player":$(NAME), "kick":1}
+										fin de la connection
+									sinon:
+										server:{"message blocked":True,"reason":$(REASON), "crid":$(CRID)}
+										
+						si la map est fermer:
+							server:{"map closed":True, "reason":$(REASON), "winer":$(NAME),"playerclassement":$(PLAYERCLASSEMENT), "crid":$(CRID)}
+							
+						si le joueur abandonne:
+							en restant sur le serveur:
+								client:{"quit the map":True, "rid":$(RID)}
+								serveur v all client: {"player":$(NAME),"quit the game":True}
+								
+							en coupant la connexion:
+								fin de la connexion
+								serveur v all client: {"player":$(NAME),"quit the game":True}
